@@ -56,14 +56,15 @@ public class FinderEditorWindow : EditorWindow
         using (var h = new EditorGUILayout.HorizontalScope("Toolbar", GUILayout.ExpandWidth(true)))
         {
             bool guiEnabled = GUI.enabled;
-            GUI.enabled = GUI.enabled && filters.Count > 0 && filters.Count < 100;
+            GUI.enabled = GUI.enabled && filters != null && filters.Count > 0 && filters.Count < 100;
             if (GUILayout.Button(" Select All (less than 100) "))
             {
                 Selection.objects = filters.Select(f => f.m).ToArray();
             }
             GUI.enabled = guiEnabled;
 
-            EditorGUILayout.LabelField("-- Filter --", EditorStyles.boldLabel, GUILayout.Width(100));
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("-- Filter --", EditorStyles.boldLabel, GUILayout.Width(70));
 
             bool changed = GUI.changed;
             GUI.changed = false;
