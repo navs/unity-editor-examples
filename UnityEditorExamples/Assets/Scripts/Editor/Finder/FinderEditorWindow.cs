@@ -55,13 +55,16 @@ public class FinderEditorWindow : EditorWindow
     {
         using (var h = new EditorGUILayout.HorizontalScope("Toolbar", GUILayout.ExpandWidth(true)))
         {
-            EditorGUILayout.LabelField("-- Filter --", EditorStyles.boldLabel);
-
-            if (GUILayout.Button(" Select All "))
+            bool guiEnabled = GUI.enabled;
+            GUI.enabled = GUI.enabled && filters.Count > 0 && filters.Count < 100;
+            if (GUILayout.Button(" Select All (less than 100) "))
             {
                 Selection.objects = filters.Select(f => f.m).ToArray();
             }
-            
+            GUI.enabled = guiEnabled;
+
+            EditorGUILayout.LabelField("-- Filter --", EditorStyles.boldLabel, GUILayout.Width(100));
+
             bool changed = GUI.changed;
             GUI.changed = false;
 
@@ -124,6 +127,7 @@ public class FinderEditorWindow : EditorWindow
                         if (GUILayout.Button(result.m.name, GUILayout.Width(400)))
                         {
                             EditorGUIUtility.PingObject(result.m);
+                            Selection.activeObject = result.m;
                         }
                         GUI.skin.button.alignment = alignment;
 
@@ -135,7 +139,7 @@ public class FinderEditorWindow : EditorWindow
                         {
                             GUILayout.Space(20);
                         }
-                        if (GUILayout.Button(result.m.shader.name, EditorStyles.centeredGreyMiniLabel, GUILayout.Width(120)))
+                        if (GUILayout.Button(result.m.shader.name, EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200)))
                         {
                             shaderName = result.m.shader.name;
                         }
